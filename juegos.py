@@ -1,17 +1,17 @@
 import ahorcado
 import adivinanza
 
+print('================================')
+print('Elija su Juego')
+print('================================')
 
-print("=================================================")
-print("ESCOJA SU JUEGO")
-print("=================================================")
+print("(1) Ahorcado (2) Adivinanza")
 
+juego = int(input("¿Cuál juego? "))
 
-print("(1) ahorcado (2) adivinanza")
-
-juego=int(input("cual es el juego?"))
-
-if(juego == 1):
-    print("jugando ahorcado")
-elif(juego == 2):
-    print("jugando adivinanza")
+if (juego == 1):
+    print("Jugando ahorcado")
+    ahorcado.jugar_ahorcado()
+elif (juego == 2):
+    print("Jugando adivinanza")
+    adivinanza.jugar_adivinanza()
