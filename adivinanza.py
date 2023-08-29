@@ -1,5 +1,5 @@
 import random
-def jugar_adivinanza():  
+def jugar():  
     print('=================================')
     print('Bienvenido al Juego de Adivinanza')
     print('=================================')
@@ -47,4 +47,4 @@ def jugar_adivinanza():
     print('Fin del Juego')
     
 if(__name__ == "__main__"):
-     jugar_adivinanza()
+     jugar()

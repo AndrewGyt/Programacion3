@@ -1,8 +1,8 @@
-def jugar_ahorcado():
+def jugar():
     print('================================')
     print('Bienvenido al Juego del Ahorcado')
     print('================================')
 
     print("Fin del Juego")
 if(__name__ == "__main__"):
-     jugar_ahorcado()
+    jugar()
