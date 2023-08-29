@@ -3,13 +3,14 @@ def jugar():
     print('================================')
     print('Bienvenido al Juego del Ahorcado')
     print('================================')
-    
-     
+        
     palabra_secreta = 'mandarina'
+    letras_acertadas=["_","_","_","_","_","_","_","_","_"]
     
     ahorcado = False
     acerto = False
     
+    print(letras_acertadas)
     while ( not ahorcado and not acerto ):
         entrada=input ("ingrese una letra...")
         entrada=entrada.strip()
@@ -17,11 +18,11 @@ def jugar():
         indice = 0
         for letra in palabra_secreta:
             if(entrada==letra):
-                print("Se encontro la letra {} en la posicion {}".format(letra,indice))
+                letras_acertadas[indice] = letra
                 
-            indice = indice + 1    
-                
-        print('jugando...')
+            indice = indice + 1  
+           
+        print(letras_acertadas)       
 
     print("Fin del Juego")
     
