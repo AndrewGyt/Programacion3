@@ -1,0 +1,230 @@
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using VENTASTNDC.CONTROLADOR;
+
+namespace VENTASTNDC.VISTA
+{
+    public partial class FrmCliente : Form
+    {
+        public FrmCliente()
+        {
+            InitializeComponent();
+            this.toolTip1.SetToolTip(this.textBoxCI, "Ingrese CI del cliente");
+            this.toolTip1.SetToolTip(this.textBoxNombre, "Ingrese el Nombre");
+            this.toolTip1.SetToolTip(this.textBoxPaterno, "Ingrese el apellido parterno");
+            this.toolTip1.SetToolTip(this.textBoxMaterno, "Ingrese el apellido marterno");
+            this.toolTip1.SetToolTip(this.textBoxDireccion, "Ingrese la direccion del cliente");
+            this.toolTip1.SetToolTip(this.textBoxCelular, "Ingrese numero celular del cliente");
+        }
+        private void FrmCliente_Load(object sender, EventArgs e)
+        {
+            groupBoxDatosCliente.Enabled = false;
+            groupBoxListaCliente.Enabled = true;
+
+            buttonNuevo.Enabled = true;
+            buttonRegistrar.Enabled = false;
+            buttonEditar.Enabled = false;
+            buttonCancelar.Enabled = false;
+            buttonEliminar.Enabled = false;
+
+            dataGridViewListarCliente.DataSource = CLIENTE_CONTROLADOR.listarClienteControlador();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+      
+
+            groupBoxDatosCliente.Enabled = true;
+            groupBoxListaCliente.Enabled = false;
+
+
+            buttonNuevo.Enabled = false;
+            buttonRegistrar.Enabled = true;
+            buttonEditar.Enabled = false;
+            buttonCancelar.Enabled = true;
+            buttonEliminar.Enabled = false;
+
+
+            textBoxCI.Clear();
+            textBoxNombre.Clear();
+            textBoxPaterno.Clear();
+            textBoxMaterno.Clear();
+            textBoxDireccion.Clear();
+            textBoxCelular.Clear();
+            textBoxCI.Focus();
+            textBoxCI.Enabled = true;
+        }
+
+        private void buttonRegistrar_Click(object sender, EventArgs e)
+        {
+            groupBoxDatosCliente.Enabled = false;
+            groupBoxListaCliente.Enabled = true;
+
+            buttonNuevo.Enabled = true;
+            buttonRegistrar.Enabled = false;
+            buttonCancelar.Enabled = false;
+            buttonEditar.Enabled = false;
+            buttonEliminar.Enabled = false;
+
+            if (string.IsNullOrEmpty(textBoxCI.Text) || string.IsNullOrEmpty(textBoxNombre.Text) || string.IsNullOrEmpty(textBoxPaterno.Text) || string.IsNullOrEmpty(textBoxMaterno.Text) || string.IsNullOrEmpty(textBoxDireccion.Text) || string.IsNullOrEmpty(textBoxCelular.Text))
+            {
+                MessageBox.Show("Faltan datos por ingresar");
+
+            }
+
+            else
+            {
+
+                if (buttonRegistrar.Text.Equals("REGISTRAR"))
+                {
+                    CLIENTE_CONTROLADOR.registrarClienteControlador(Convert.ToInt32(textBoxCI.Text), textBoxNombre.Text, textBoxPaterno.Text, textBoxMaterno.Text, textBoxDireccion.Text, Convert.ToInt32(textBoxCelular.Text));
+                    dataGridViewListarCliente.DataSource = CLIENTE_CONTROLADOR.listarClienteControlador();
+                    buttonRegistrar.Text = "REGISTRAR";
+                }
+                else
+                {
+                    CLIENTE_CONTROLADOR.editarClienteControlador(Convert.ToInt32(textBoxCI.Text), textBoxNombre.Text, textBoxPaterno.Text, textBoxMaterno.Text, textBoxDireccion.Text, Convert.ToInt32(textBoxCelular.Text));
+                    dataGridViewListarCliente.DataSource = CLIENTE_CONTROLADOR.listarClienteControlador();
+                    buttonRegistrar.Text = "REGISTRAR";
+                    textBoxCI.Enabled = true;
+                }
+            }
+        }
+
+        private void buttonEditar_Click(object sender, EventArgs e)
+        {
+            buttonRegistrar.Text = "ACTUALIZAR";
+            textBoxCI.Focus();
+
+            groupBoxDatosCliente.Enabled = true;
+            groupBoxListaCliente.Enabled = true;
+
+            buttonNuevo.Enabled = false;
+            buttonRegistrar.Enabled = true;
+            buttonEditar.Enabled = false;
+            buttonCancelar.Enabled = true;
+            buttonEliminar.Enabled = false;
+        }
+
+        private void buttonCancelar_Click(object sender, EventArgs e)
+        {
+            buttonRegistrar.Text = "REGISTRAR";
+
+            groupBoxDatosCliente.Enabled = false;
+            groupBoxListaCliente.Enabled = true;
+
+            buttonNuevo.Enabled = true;
+            buttonRegistrar.Enabled = false;
+            buttonEditar.Enabled = false;
+            buttonCancelar.Enabled = false;
+            buttonEliminar.Enabled = false;
+
+            textBoxCI.Clear();
+            textBoxNombre.Clear();
+            textBoxPaterno.Clear();
+            textBoxMaterno.Clear();
+            textBoxDireccion.Clear();
+            textBoxCelular.Clear();
+
+            textBoxCI.Enabled = false;
+        }
+
+        private void buttonEliminar_Click(object sender, EventArgs e)
+        {
+            groupBoxDatosCliente.Enabled = false;
+            groupBoxListaCliente.Enabled = true;
+
+            buttonNuevo.Enabled = true;
+            buttonRegistrar.Enabled = false;
+            buttonEditar.Enabled = false;
+            buttonCancelar.Enabled = false;
+            buttonEliminar.Enabled = false;
+
+            CLIENTE_CONTROLADOR.eliminarClienteControlador(Convert.ToInt32(textBoxCI.Text));
+            dataGridViewListarCliente.DataSource = CLIENTE_CONTROLADOR.listarClienteControlador();
+        }
+
+        private void dataGridViewListarCliente_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            buttonEditar.Enabled = true;
+            buttonEliminar.Enabled = true;
+            textBoxCI.Enabled = false;
+
+            textBoxCI.Text = dataGridViewListarCliente.CurrentRow.Cells[0].Value.ToString();
+            textBoxNombre.Text = dataGridViewListarCliente.CurrentRow.Cells[1].Value.ToString();
+            textBoxPaterno.Text = dataGridViewListarCliente.CurrentRow.Cells[2].Value.ToString();
+            textBoxMaterno.Text = dataGridViewListarCliente.CurrentRow.Cells[3].Value.ToString();
+            textBoxDireccion.Text = dataGridViewListarCliente.CurrentRow.Cells[5].Value.ToString();
+            textBoxCelular.Text = dataGridViewListarCliente.CurrentRow.Cells[4].Value.ToString();
+        }
+
+        private void textBoxNombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsNumber(e.KeyChar))
+                e.Handled = true;
+            else if (char.IsSymbol(e.KeyChar))
+                e.Handled = true;
+            else if (char.IsPunctuation(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void textBoxPaterno_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsNumber(e.KeyChar))
+                e.Handled = true;
+            else if (char.IsSymbol(e.KeyChar))
+                e.Handled = true;
+            else if (char.IsPunctuation(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void textBoxMaterno_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsNumber(e.KeyChar))
+                e.Handled = true;
+            else if (char.IsSymbol(e.KeyChar))
+                e.Handled = true;
+            else if (char.IsPunctuation(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void textBoxCelular_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsLetter(e.KeyChar))
+                e.Handled = true;
+            else if (char.IsSymbol(e.KeyChar))
+                e.Handled = true;
+            else if (char.IsPunctuation(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void textBoxCI_TextChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void textBoxCI_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsLetter(e.KeyChar))
+                e.Handled = true;
+            else if (char.IsSymbol(e.KeyChar))
+                e.Handled = true;
+            else if (char.IsPunctuation(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridViewListarCliente_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+    }
+}
